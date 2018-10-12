@@ -26,6 +26,10 @@ public class AmichiList {
 		Collections.sort(amici);
 	}
 
+	public List<Amico> getAmici() {
+		return amici;
+	}
+	
 	public Amico searchAmico(String nome, String cognome) {
 		Iterator<Amico> i=amici.iterator();
 		
@@ -41,10 +45,9 @@ public class AmichiList {
 	public Amico cercaProssimo(LocalDate oggi, int giorni) {
 		Iterator<Amico> i=amici.iterator();
 		
-		
 	    while (i.hasNext()) {
 	    	Amico a=i.next();
-	        LocalDate ld=LocalDate.ofYearDay(oggi.getYear(),a.getDataDiNascita().getDayOfYear());
+	        LocalDate ld=LocalDate.ofYearDay(((oggi.getMonthValue()>a.getDataDiNascita().getMonthValue()) ? oggi.getYear()+1 : oggi.getYear()),a.getDataDiNascita().getDayOfYear());
 	        
 	    	if ((oggi.isBefore(ld) || oggi.isEqual(ld)) && !oggi.isBefore(ld.minusDays(giorni))) {
 	    		return a;
@@ -69,4 +72,5 @@ public class AmichiList {
 	    	System.out.println(i.next());
 	    }
 	}
+	
 }

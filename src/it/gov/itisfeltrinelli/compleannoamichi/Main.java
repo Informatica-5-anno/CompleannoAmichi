@@ -12,7 +12,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			// BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("AmichiView.fxml"));
+			//BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("AmichiView.fxml"));
 			FXMLLoader aLoader = new FXMLLoader(getClass().getResource("AmichiView.fxml"));
 			BorderPane root = aLoader.load();
 			// Aggiungere la seguente
