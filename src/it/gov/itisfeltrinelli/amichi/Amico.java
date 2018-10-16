@@ -76,7 +76,7 @@ public class Amico implements Comparable<Amico> {
 	
 	@Override
 	public boolean equals(Object arg0) {
-		return (this.cognome==((Amico)arg0).getCognome() && 
-				this.nome==((Amico)arg0).getNome());
+		return (this.cognome.equals(((Amico)arg0).getCognome()) && 
+				this.nome.equals(((Amico)arg0).getNome()));
 	}
 }
