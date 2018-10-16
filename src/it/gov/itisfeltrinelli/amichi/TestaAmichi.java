@@ -13,6 +13,7 @@ public class TestaAmichi {
 		aml.AddAmico("rita", "ora", LocalDate.of(1990,11,26));
 		
 		aml.stampa();
+		System.out.println("Amici contenuti: "+aml.getnAmici());
 		Amico a=aml.cercaProssimo(LocalDate.of(2018, 10, 19), 4);
 		if (a!=null) { 
 			System.out.println("Prossimo compleanno "+a.toString());
@@ -20,5 +21,6 @@ public class TestaAmichi {
 		System.out.println("Cancello la Stone");
 		aml.deleteAmico(new Amico("sharon", "stone", LocalDate.of(1965,3,27)));
 		aml.stampa();
+		System.out.println("Amici contenuti: "+aml.getnAmici());
 	}
 }

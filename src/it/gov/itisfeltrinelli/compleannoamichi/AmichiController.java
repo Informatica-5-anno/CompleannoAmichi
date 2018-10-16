@@ -25,6 +25,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.converter.NumberStringConverter;
 
 public class AmichiController {
 	
@@ -67,6 +68,9 @@ public class AmichiController {
     
     @FXML // fx:id="btnLista"
     private Button btnLista; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="txtRecord"
+    private TextField txtRecord; // Value injected by FXMLLoader
 
     @FXML // fx:id="lwAmici"
     private ListView<Amico> lwAmici; // Value injected by FXMLLoader
@@ -127,6 +131,8 @@ public class AmichiController {
 
     public void setModel(AmichiList model) {
 		aml = model; 
+		txtRecord.textProperty().bindBidirectional(aml.nAmiciProperty(), new NumberStringConverter());
+		
 	}
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -136,8 +142,11 @@ public class AmichiController {
         assert txtDataNascita != null : "fx:id=\"txtDataNascita\" was not injected: check your FXML file 'AmichiView.fxml'.";
         assert btmAction != null : "fx:id=\"btmAction\" was not injected: check your FXML file 'AmichiView.fxml'.";
         assert btProssimo != null : "fx:id=\"btProssimo\" was not injected: check your FXML file 'AmichiView.fxml'.";
+        assert txtRecord != null : "fx:id=\"txtRecord\" was not injected: check your FXML file 'AmichiView.fxml'.";
         assert txtAreaLog != null : "fx:id=\"txtAreaLog\" was not injected: check your FXML file 'AmichiView.fxml'.";
 
+      
+        
         
         Image warningIcon = new Image(getClass().getResourceAsStream("icons/warning.png"));
         ImageView warningView = new ImageView(warningIcon);
@@ -149,10 +158,16 @@ public class AmichiController {
         //Bindings
         BooleanBinding txtNomeValid = Bindings.createBooleanBinding(() -> {
             return !txtNome.getText().isEmpty();}, txtNome.textProperty());
+        
+        
+        
         BooleanBinding txtCognomeValid = Bindings.createBooleanBinding(() -> {
             return !txtCognome.getText().isEmpty();}, txtCognome.textProperty());
         BooleanBinding txtDataNascitaValid = Bindings.createBooleanBinding(() -> {
             return (txtDataNascita.getValue()!=null && txtDataNascita.getValue().isBefore(LocalDate.now()));}, txtDataNascita.valueProperty());
+        
+        
+        
         btmAction.disableProperty().bind(txtNomeValid.not().or(txtCognomeValid.not()));
         //miInserisci.disableProperty().bind(txtNomeValid.not().or(txtCognomeValid.not()));
         miInserisci.disableProperty().bind(txtNomeValid.not().or(txtCognomeValid.not().or(txtDataNascitaValid.not())));

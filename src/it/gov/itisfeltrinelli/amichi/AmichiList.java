@@ -6,8 +6,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class AmichiList {
 	private List<Amico> amici;
+//	private int nAmici=0;
+	private IntegerProperty nAmici=new SimpleIntegerProperty();
 
 	public AmichiList() {
 		super();
@@ -24,8 +29,10 @@ public class AmichiList {
 			a.setDataDiNascita(dataDiNascita);
 		}
 		Collections.sort(amici);
+		nAmici.set(nAmici.get()+1);
 	}
 
+	
 	public List<Amico> getAmici() {
 		return amici;
 	}
@@ -62,9 +69,19 @@ public class AmichiList {
 	    while (i.hasNext()) {
 	    	if (da.equals(i.next())) {
 	    		i.remove();
+	    		nAmici.set(nAmici.get()-1);
 	    	}
 	    }
 	}
+		
+	public IntegerProperty nAmiciProperty() {
+		return nAmici;
+	}
+	
+	public int getnAmici() {
+		return nAmici.get();
+	}
+	
 	
 	public void stampa( ) {
 		Iterator<Amico> i=amici.iterator();
