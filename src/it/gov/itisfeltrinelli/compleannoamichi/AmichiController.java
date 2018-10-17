@@ -25,6 +25,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.converter.NumberStringConverter;
 
 public class AmichiController {
@@ -83,7 +84,8 @@ public class AmichiController {
      
     @FXML
     void onCancella(ActionEvent event) {
-    	System.out.println("Cancella");
+    	aml.deleteAmico(new Amico(txtNome.getText(), txtCognome.getText(), LocalDate.of(1965,3,27)));
+    	onLista(event);
     }
 
     @FXML
@@ -91,6 +93,7 @@ public class AmichiController {
     	aml.AddAmico(txtNome.getText(), txtCognome.getText(), txtDataNascita.getValue());
     	clearFields();
     	txtNome.requestFocus();
+    	onLista(event);
     }
     
     private void clearFields() {
@@ -134,6 +137,13 @@ public class AmichiController {
 		txtRecord.textProperty().bindBidirectional(aml.nAmiciProperty(), new NumberStringConverter());
 		
 	}
+    
+
+    @FXML
+    void onClickLV(MouseEvent event) {
+    	System.out.println("Cliccato");
+    }
+
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
