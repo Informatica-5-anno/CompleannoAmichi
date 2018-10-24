@@ -129,7 +129,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </HBox.margin>
                   </Separator>
-                  <ListView fx:id="lwAmici" onMouseClicked="#onClickLV" prefHeight="200.0" prefWidth="656.0">
+                  <ListView fx:id="lwAmici" onMouseClicked="#lvMouseClick" prefHeight="200.0" prefWidth="656.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>

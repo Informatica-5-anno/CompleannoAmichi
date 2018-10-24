@@ -138,12 +138,13 @@ public class AmichiController {
 		
 	}
     
-
     @FXML
-    void onClickLV(MouseEvent event) {
-    	System.out.println("Cliccato");
+    void lvMouseClick(MouseEvent event) {
+        clearFields();
+        txtNome.setText(lwAmici.getSelectionModel().getSelectedItem().getNome());
+        txtCognome.setText(lwAmici.getSelectionModel().getSelectedItem().getCognome());
+        txtDataNascita.setValue(lwAmici.getSelectionModel().getSelectedItem().getDataDiNascita());
     }
-
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -155,8 +156,6 @@ public class AmichiController {
         assert txtRecord != null : "fx:id=\"txtRecord\" was not injected: check your FXML file 'AmichiView.fxml'.";
         assert txtAreaLog != null : "fx:id=\"txtAreaLog\" was not injected: check your FXML file 'AmichiView.fxml'.";
 
-      
-        
         
         Image warningIcon = new Image(getClass().getResourceAsStream("icons/warning.png"));
         ImageView warningView = new ImageView(warningIcon);
@@ -168,16 +167,10 @@ public class AmichiController {
         //Bindings
         BooleanBinding txtNomeValid = Bindings.createBooleanBinding(() -> {
             return !txtNome.getText().isEmpty();}, txtNome.textProperty());
-        
-        
-        
         BooleanBinding txtCognomeValid = Bindings.createBooleanBinding(() -> {
             return !txtCognome.getText().isEmpty();}, txtCognome.textProperty());
         BooleanBinding txtDataNascitaValid = Bindings.createBooleanBinding(() -> {
             return (txtDataNascita.getValue()!=null && txtDataNascita.getValue().isBefore(LocalDate.now()));}, txtDataNascita.valueProperty());
-        
-        
-        
         btmAction.disableProperty().bind(txtNomeValid.not().or(txtCognomeValid.not()));
         //miInserisci.disableProperty().bind(txtNomeValid.not().or(txtCognomeValid.not()));
         miInserisci.disableProperty().bind(txtNomeValid.not().or(txtCognomeValid.not().or(txtDataNascitaValid.not())));
