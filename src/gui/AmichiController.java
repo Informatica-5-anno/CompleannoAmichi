@@ -1,12 +1,12 @@
 
 package gui;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import model.AmichiList;
-import model.Amico;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -23,13 +23,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
+import model.AmichiList;
+import model.Amico;
 
 public class AmichiController {
-	
+	private FileChooser fileChooser;
 	private static final int MAXDAY=200;
 	
 	private AmichiList aml;
+	private Stage primaryStage;
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -66,6 +71,12 @@ public class AmichiController {
     
     @FXML // fx:id="btnLista"
     private Button btnLista; // Value injected by FXMLLoader
+
+    @FXML // fx:id="idLoad"
+    private Button idLoad; // Value injected by FXMLLoader
+
+    @FXML // fx:id="idSave"
+    private Button idSave; // Value injected by FXMLLoader
     
     @FXML // fx:id="txtRecord"
     private TextField txtRecord; // Value injected by FXMLLoader
@@ -124,16 +135,52 @@ public class AmichiController {
     }
 
     @FXML
-    void onLista(ActionEvent event) {
-       observableList = FXCollections.observableList(aml.getAmici());
-       lwAmici.setItems(observableList);
+    void onLoad(ActionEvent event) {
+    	fileChooser.setTitle("Open Birthday File");
+    	File f=fileChooser.showOpenDialog(primaryStage);
+    	if (f!=null) {
+	    	aml.loadList(f);
+	    	refresh();
+	    	idSave.setDisable(false);
+	    	idLoad.setDisable(true);
+    	}
     }
 
+
+    @FXML
+    void onSave(ActionEvent event) {
+    	fileChooser.setTitle("Save Birthday File");
+    	File f=fileChooser.showSaveDialog(primaryStage);
+    	if (f!=null) {
+	    	aml.saveList(f);
+    	}
+    }
+
+    
+    @FXML
+    void onLista(ActionEvent event) {
+       refresh();
+    }
+
+    private void refresh() {
+    	observableList = FXCollections.observableList(aml.getAmici());
+        lwAmici.setItems(observableList);
+    }
     public void setModel(AmichiList model) {
 		aml = model; 
 		txtRecord.textProperty().bindBidirectional(aml.nAmiciProperty(), new NumberStringConverter());
 		
 	}
+    public void setStage(Stage primaryStage) {
+    	this.primaryStage=primaryStage;
+    	fileChooser = new FileChooser();
+    	fileChooser.getExtensionFilters().addAll(
+    		     new FileChooser.ExtensionFilter("Text Files", "*.txt")
+    		    ,new FileChooser.ExtensionFilter("All Files", "*.*")
+    		);
+    	// Set default directory to desktop
+    	fileChooser.setInitialDirectory(new File(System.getProperty("user.home")+"/Desktop"));
+    }
     
     @FXML
     void lvMouseClick(MouseEvent event) {
@@ -142,6 +189,8 @@ public class AmichiController {
         txtCognome.setText(lwAmici.getSelectionModel().getSelectedItem().getCognome());
         txtDataNascita.setValue(lwAmici.getSelectionModel().getSelectedItem().getDataDiNascita());
     }
+    
+    
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

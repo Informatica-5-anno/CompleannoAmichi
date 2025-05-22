@@ -1,6 +1,14 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -11,6 +19,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class AmichiList {
 	private List<Amico> amici;
+	private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 //	private int nAmici=0;
 	private IntegerProperty nAmici=new SimpleIntegerProperty();
 
@@ -18,6 +27,46 @@ public class AmichiList {
 		super();
 		amici=new ArrayList<Amico>();
 	}
+
+	public void loadList(File f) {
+		try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] fields = linea.split(";");
+				
+				try {
+					LocalDate datetime = LocalDate.parse(fields[2], pattern);
+					System.out.println("Carico "+fields[0]+" "+ fields[1]);
+					AddAmico(fields[0], fields[1], datetime);
+				} catch (DateTimeParseException e) {
+					continue;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	public void saveList(File f) {
+		System.out.println("Carico");
+		try (PrintWriter pw=new PrintWriter(f)) {
+			for (Amico a : amici) {
+				pw.printf("%s;%s;%s",
+	                      a.getNome(),
+	                      a.getCognome(),
+	                      a.getDataDiNascita().format(pattern));		
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public void AddAmico(String nome, String cognome, LocalDate dataDiNascita) {
 		Amico a=searchAmico(nome,cognome);
 		

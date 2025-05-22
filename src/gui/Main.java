@@ -23,6 +23,7 @@ public class Main extends Application {
 			AmichiList aList=new AmichiList();
 			// Passiamo il Model al controller
 			aController.setModel(aList);
+			aController.setStage(primaryStage);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			
