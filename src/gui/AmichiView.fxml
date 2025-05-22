@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.gov.itisfeltrinelli.compleannoamichi.AmichiController">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AmichiController">
    <center>
       <VBox fillWidth="false" BorderPane.alignment="CENTER">
          <children>
@@ -57,7 +57,7 @@
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="FALSE">
                            <image>
-                              <Image url="@icons/clean.png" />
+                              <Image url="@../icons/clean.png" />
                            </image>
                         </ImageView>
                      </graphic>
